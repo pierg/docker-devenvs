@@ -31,7 +31,10 @@ RUN rm get-pip.py
 
 # Install pdm.
 RUN curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
-
+RUN export PATH=${HOME}/.local/bin:${PATH}
+RUN echo "export PATH=${HOME}/.local/bin:${PATH}" >> ~/.bashrc
+#RUN pdm config python.use_venv false
+#RUN pdm --pep582 >> ~/.bash_profile
 
 # Setup SSH with secure root login
 RUN apt-get update \
