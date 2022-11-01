@@ -4,17 +4,16 @@ USER root
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
+    software-properties-common \
     curl \
     git \
     build-essential \
     gcc \
     unzip \
     cmake \
-    wget \
-    && rm -rf /var/lib/apt/lists/*
+    wget
 
 # Install python3.10.
-RUN apt-get update && apt-get install -y software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa -y
 RUN apt-get install python3.10 -y
 
@@ -30,11 +29,8 @@ RUN python get-pip.py
 RUN rm get-pip.py
 
 # Install pdm.
-RUN curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
-RUN export PATH=${HOME}/.local/bin:${PATH}
-RUN echo "export PATH=${HOME}/.local/bin:${PATH}" >> ~/.bashrc
-#RUN pdm config python.use_venv false
-#RUN pdm --pep582 >> ~/.bash_profile
+RUN pip install -U pip setuptools wheel
+RUN pip install pdm
 
 # Setup SSH with secure root login
 RUN apt-get update \

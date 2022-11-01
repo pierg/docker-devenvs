@@ -4,18 +4,13 @@ USER root
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
+    software-properties-common \
     curl \
     git \
     build-essential \
-    libosmesa6-dev \
-    libgl1-mesa-glx \
-    libglfw3 \
-    libglew-dev \
-    patchelf \
     gcc \
     unzip \
-    cmake \
-    && rm -rf /var/lib/apt/lists/*
+    cmake
 
 # Setup SSH with secure root login
 RUN apt-get update \

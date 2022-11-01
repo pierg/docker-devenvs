@@ -1,7 +1,6 @@
 FROM pmallozzi/devenvs:base-gui
 
 # Install python3.8.
-RUN apt-get install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa -y
 RUN apt-get install python3.8 -y
 
