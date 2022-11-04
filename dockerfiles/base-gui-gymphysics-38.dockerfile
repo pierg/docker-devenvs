@@ -1,31 +1,20 @@
-FROM pmallozzi/devenvs:base-gui-38
+FROM pmallozzi/devenvs:base-gui-gymphysics
 
-RUN pip install gym
+# Install python3.8.
+RUN add-apt-repository ppa:deadsnakes/ppa -y
+RUN apt-get install python3.8 -y
 
-RUN pip install stable_baselines3
+# Make python3.8 the default python.
+RUN rm /usr/bin/python3
+RUN ln -s /usr/bin/python3.8 /usr/bin/python3
+RUN ln -s /usr/bin/python3.8 /usr/bin/python
+RUN apt-get install python3-distutils -y
 
-RUN pip install pybullet
+# Install pip.
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python get-pip.py
+RUN rm get-pip.py
 
-# Create Mujoco subdir.
-RUN mkdir /home/headless/.mujoco
-
-RUN mkdir /root/.mujoco
-
-# Download and install mujoco.
-RUN wget https://mujoco.org/download/mujoco210-linux-x86_64.tar.gz
-RUN tar -xf mujoco210-linux-x86_64.tar.gz -C /home/headless/.mujoco
-RUN tar -xf mujoco210-linux-x86_64.tar.gz -C /root/.mujoco
-RUN rm mujoco210-linux-x86_64.tar.gz
-
-# Add LD_LIBRARY_PATH environment variable.
-ENV LD_LIBRARY_PATH "/home/headless/.mujoco/mujoco210/bin:${LD_LIBRARY_PATH}"
-RUN echo 'export LD_LIBRARY_PATH=/home/headless/.mujoco/mujoco210/bin:${LD_LIBRARY_PATH}' >> /etc/bash.bashrc
-
-ENV LD_LIBRARY_PATH "/root/.mujoco/mujoco210/bin:${LD_LIBRARY_PATH}"
-RUN echo 'export LD_LIBRARY_PATH=/root/.mujoco/mujoco210/bin:${LD_LIBRARY_PATH}' >> /etc/bash.bashrc
-
-# Finally, install mujoco_py.
-RUN pip install mujoco_py
-
-RUN apt install python3.8-dev
-
+# Install pdm.
+RUN pip install -U pip setuptools wheel
+RUN pip install pdm
