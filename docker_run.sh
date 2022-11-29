@@ -11,8 +11,6 @@ case $(uname -m) in
 esac
 echo ${my_platform}
 
-docker pull ${image}
-
 
 cleanup() {
   echo "Checking if container already exists.."
@@ -33,6 +31,8 @@ main() {
   local version=${1?Need command}
   container=${version}
   image=pmallozzi/devenvs:${version}
+
+  docker pull ${image}
 
   mount_arg="-v ${repo_dir}:/root/host"
   port_arg="-p $port_vnc:6901 -p $port_ssh:22"
@@ -61,4 +61,4 @@ main() {
 
 }
 
-main $@
+main "$@"
