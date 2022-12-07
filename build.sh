@@ -11,7 +11,7 @@ main() {
 
     case "${devenv}" in
 
-        base-gui | base-gui-gymphysics | base-gui-gymphysics-310 | base-gui-gymphysics-38 )
+        base-gui | base-gui-39 | base-gui-gymphysics | base-gui-gymphysics-310 | base-gui-gymphysics-38 )
             build_and_load "$1"
             ;;
         all310 )
